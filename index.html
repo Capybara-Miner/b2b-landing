@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capybara Kombat - Enterprise Idle Game Solution</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+    <header id="header">
+        <nav class="container">
+            <div class="logo">
+                <img src="https://db94virrvubjy.cloudfront.net/latest/images/logos/1.webp" alt="Capybara Kombat Logo">
+            </div>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#architecture">Architecture</a>
+                <a href="#pricing">Pricing</a>
+                <a href="#contact" class="cta-button">Contact Us</a>
+            </div>
+            <div class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <section id="hero" class="hero-section">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Capybara Kombat</h1>
+                <h2>Enterprise-Ready Idle Game Solution</h2>
+                <p>The evolved successor to Telegram's Hamster Kombat with advanced resource management and monetization pathways</p>
+                <div class="hero-cta">
+                    <a href="#pricing" class="primary-button">View Pricing</a>
+                    <a href="#contact" class="secondary-button">Schedule Demo</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="phone-mockup">
+                    <div class="phone-frame">
+                        <div class="phone-screen">
+                            <img src="https://db94virrvubjy.cloudfront.net/latest/images/screenshots/home.webp" alt="Capybara Kombat Game Screenshot">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="features-section">
+        <div class="container">
+            <h2 class="section-title">Key Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-layer-group"></i>
+                    </div>
+                    <h3>Advanced Economy</h3>
+                    <p>Multi-layered resource management with mineral extraction and industry sales contracts</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <h3>Scalable Architecture</h3>
+                    <p>AWS infrastructure with serverless components and PostgreSQL database</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-paint-brush"></i>
+                    </div>
+                    <h3>Premium Assets</h3>
+                    <p>Complete art package with characters, animations, and UI elements</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3>Modern Frontend</h3>
+                    <p>TypeScript React framework with Tailwind CSS for responsive design</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="game-mechanics" class="game-mechanics-section">
+        <div class="container">
+            <h2 class="section-title">Innovative Game Mechanics</h2>
+            <div class="mechanics-content">
+                <div class="mechanics-text">
+                    <h3>Dual-Layer Economy</h3>
+                    <p>Unlike Hamster Kombat's direct rewards, Capybara Kombat introduces a strategic resource management layer:</p>
+                    <ul>
+                        <li>Project completion yields mineral resources</li>
+                        <li>Upgradable industry contracts convert minerals to coins</li>
+                        <li>Higher engagement through strategic decision-making</li>
+                        <li>Increased monetization opportunities with dual currency system</li>
+                    </ul>
+                </div>
+                <div class="mechanics-visual">
+                    <div class="resource-flow-diagram">
+                        <div class="flow-item">Projects</div>
+                        <div class="flow-arrow">→</div>
+                        <div class="flow-item">Minerals</div>
+                        <div class="flow-arrow">→</div>
+                        <div class="flow-item">Sales Contracts</div>
+                        <div class="flow-arrow">→</div>
+                        <div class="flow-item">Coins</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="architecture" class="architecture-section">
+        <div class="container">
+            <h2 class="section-title">Technical Architecture</h2>
+            <div class="architecture-content">
+                <div class="architecture-diagram">
+                    <img src="architecture-diagram.png" alt="Capybara Kombat Architecture Diagram">
+                </div>
+                <div class="code-showcase">
+                    <h3>AWS SAM Template</h3>
+                    <pre class="code-block"><code class="language-yaml">
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Resources:
+  CapybaraKombatApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: prod
+      Cors:
+        AllowMethods: "'GET,POST,PUT,DELETE'"
+        AllowHeaders: "'Content-Type,Authorization'"
+        AllowOrigin: "'*'"
+        
+  GameStateFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./src/lambda/gameState/
+      Handler: index.handler
+      Runtime: nodejs18.x
+      Events:
+        GetState:
+          Type: Api
+          Properties:
+            RestApiId: !Ref CapybaraKombatApi
+            Path: /game/state
+            Method: get
+            
+  # Additional resources and functions...
+                    </code></pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="frontend-showcase" class="frontend-showcase-section">
+        <div class="container">
+            <h2 class="section-title">Modern Frontend</h2>
+            <div class="showcase-content">
+                <div class="code-showcase">
+                    <h3>React Component</h3>
+                    <pre class="code-block"><code class="language-typescript">
+import React, { useState, useEffect } from 'react';
+import { useGameState } from '../hooks/useGameState';
+import { ResourceCard } from './ResourceCard';
+import { IndustryContract } from './IndustryContract';
+
+export const ResourceManager: React.FC = () => {
+  const { gameState, updateResources } = useGameState();
+  const [selectedIndustry, setSelectedIndustry] = useState<string | null>(null);
+  
+  useEffect(() => {
+    // Initialize passive income stream
+    const intervalId = setInterval(() => {
+      if (gameState.industries && gameState.resources) {
+        // Calculate passive income from industry contracts
+        const passiveIncome = Object.entries(gameState.industries)
+          .reduce((income, [industryId, industry]) => {
+            return income + calculatePassiveIncome(
+              industry.level, 
+              gameState.resources[industry.resourceType]
+            );
+          }, 0);
+          
+        // Update player coins
+        updateResources({ coins: gameState.coins + passiveIncome });
+      }
+    }, 1000);
+    
+    return () => clearInterval(intervalId);
+  }, [gameState, updateResources]);
+  
+  return (
+    <div className="resource-manager">
+      <div className="resource-grid">
+        {Object.entries(gameState.resources || {}).map(([resource, amount]) => (
+          <ResourceCard 
+            key={resource}
+            name={resource}
+            amount={amount}
+            icon={`/assets/resources/${resource.toLowerCase()}.png`}
+          />
+        ))}
+      </div>
+      
+      <div className="industry-contracts">
+        <h3>Industry Contracts</h3>
+        {Object.entries(gameState.industries || {}).map(([id, industry]) => (
+          <IndustryContract
+            key={id}
+            industry={industry}
+            selected={selectedIndustry === id}
+            onSelect={() => setSelectedIndustry(id)}
+            onUpgrade={() => upgradeIndustry(id)}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
+                    </code></pre>
+                </div>
+                <div class="ui-showcase">
+                    <div class="ui-components">
+                        <div class="ui-card">
+                            <h4>Resource Card</h4>
+                            <div class="component-preview">
+                                <img src="component-resource.png" alt="Resource Component Preview">
+                            </div>
+                        </div>
+                        <div class="ui-card">
+                            <h4>Industry Contract</h4>
+                            <div class="component-preview">
+                                <img src="component-industry.png" alt="Industry Contract Component Preview">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="pricing" class="pricing-section">
+        <div class="container">
+            <h2 class="section-title">Pricing Options</h2>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Standard Package</h3>
+                        <div class="price">$9,999</div>
+                    </div>
+                    <div class="pricing-features">
+                        <ul>
+                            <li><i class="fas fa-check"></i> Complete game solution as-is</li>
+                            <li><i class="fas fa-check"></i> AWS infrastructure with SAM templates</li>
+                            <li><i class="fas fa-check"></i> PostgreSQL database setup</li>
+                            <li><i class="fas fa-check"></i> TypeScript React frontend</li>
+                            <li><i class="fas fa-check"></i> Tailwind CSS integration</li>
+                            <li><i class="fas fa-check"></i> CDN with AWS CloudFront</li>
+                            <li><i class="fas fa-check"></i> Complete art assets</li>
+                            <li><i class="fas fa-times"></i> Whitelabeling</li>
+                            <li><i class="fas fa-times"></i> Developer support</li>
+                        </ul>
+                    </div>
+                    <div class="pricing-cta">
+                        <a href="#contact" class="cta-button">Get Standard</a>
+                    </div>
+                </div>
+
+                <div class="pricing-card featured">
+                    <div class="pricing-badge">Recommended</div>
+                    <div class="pricing-header">
+                        <h3>Enterprise Package</h3>
+                        <div class="price">$14,999</div>
+                    </div>
+                    <div class="pricing-features">
+                        <ul>
+                            <li><i class="fas fa-check"></i> Complete game solution</li>
+                            <li><i class="fas fa-check"></i> AWS infrastructure with SAM templates</li>
+                            <li><i class="fas fa-check"></i> PostgreSQL database setup</li>
+                            <li><i class="fas fa-check"></i> TypeScript React frontend</li>
+                            <li><i class="fas fa-check"></i> Tailwind CSS integration</li>
+                            <li><i class="fas fa-check"></i> CDN with AWS CloudFront</li>
+                            <li><i class="fas fa-check"></i> Complete art assets</li>
+                            <li><i class="fas fa-check"></i> <strong>Full whitelabeling</strong></li>
+                            <li><i class="fas fa-check"></i> <strong>Developer integration support</strong></li>
+                        </ul>
+                    </div>
+                    <div class="pricing-cta">
+                        <a href="#contact" class="cta-button">Get Enterprise</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <h2 class="section-title">Ready to Launch Your Game?</h2>
+            <div class="contact-content">
+                <div class="contact-text">
+                    <p>Schedule a demo or get in touch to discuss how Capybara Kombat can be your next successful idle game launch.</p>
+                </div>
+                <div class="contact-form-container">
+                    <form id="contact-form" class="contact-form">
+                        <div class="form-group">
+                            <label for="name">Company Name</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="package">Interested In</label>
+                            <select id="package" name="package">
+                                <option value="standard">Standard Package ($9,999)</option>
+                                <option value="enterprise" selected>Enterprise Package ($14,999)</option>
+                                <option value="custom">Custom Solution (Contact for pricing)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" rows="4"></textarea>
+                        </div>
+                        <button type="submit" class="submit-button">Schedule Demo</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="https://db94virrvubjy.cloudfront.net/latest/images/logos/1.webp" alt="Capybara Kombat Logo">
+                </div>
+                <div class="footer-links">
+                    <div class="footer-section">
+                        <h4>Navigation</h4>
+                        <ul>
+                            <li><a href="#features">Features</a></li>
+                            <li><a href="#architecture">Architecture</a></li>
+                            <li><a href="#pricing">Pricing</a></li>
+                            <li><a href="#contact">Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Capybara Kombat. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-yaml.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-typescript.min.js"></script>
+    <script src="js/main.js" type="module"></script>
+</body>
+</html>
