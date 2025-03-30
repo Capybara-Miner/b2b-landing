@@ -119,7 +119,7 @@
             <h2 class="section-title">Technical Architecture</h2>
             <div class="architecture-content">
                 <div class="architecture-diagram">
-                    <img src="architecture-diagram.png" alt="Capybara Kombat Architecture Diagram">
+                    <div id="game-architecture-container" class="diagram-container"></div>
                 </div>
                 <div class="code-showcase">
                     <h3>AWS SAM Template</h3>
@@ -164,78 +164,80 @@ Resources:
                 <div class="code-showcase">
                     <h3>React Component</h3>
                     <pre class="code-block"><code class="language-typescript">
-import React, { useState, useEffect } from 'react';
-import { useGameState } from '../hooks/useGameState';
-import { ResourceCard } from './ResourceCard';
-import { IndustryContract } from './IndustryContract';
+                      import React, { useState, useEffect } from 'react';
+                      import { useGameState } from '../hooks/useGameState';
+                      import { ResourceCard } from './ResourceCard';
+                      import { IndustryContract } from './IndustryContract';
 
-export const ResourceManager: React.FC = () => {
-  const { gameState, updateResources } = useGameState();
-  const [selectedIndustry, setSelectedIndustry] = useState<string | null>(null);
+                      export const ResourceManager: React.FC = () => {
+                        const { gameState, updateResources } = useGameState();
+                        const [selectedIndustry, setSelectedIndustry] = useState<string | null>(null);
+                        
+                        useEffect(() => {
+                          // Initialize passive income stream
+                          const intervalId = setInterval(() => {
+                            if (gameState.industries && gameState.resources) {
+                              // Calculate passive income from industry contracts
+                              const passiveIncome = Object.entries(gameState.industries)
+                                .reduce((income, [industryId, industry]) => {
+                                  return income + calculatePassiveIncome(
+                                    industry.level, 
+                                    gameState.resources[industry.resourceType]
+                                  );
+                                }, 0);
+                                
+                              // Update player coins
+                              updateResources({ coins: gameState.coins + passiveIncome });
+                            }
+                          }, 1000);
+                          
+                          return () => clearInterval(intervalId);
+                        }, [gameState, updateResources]);
   
-  useEffect(() => {
-    // Initialize passive income stream
-    const intervalId = setInterval(() => {
-      if (gameState.industries && gameState.resources) {
-        // Calculate passive income from industry contracts
-        const passiveIncome = Object.entries(gameState.industries)
-          .reduce((income, [industryId, industry]) => {
-            return income + calculatePassiveIncome(
-              industry.level, 
-              gameState.resources[industry.resourceType]
-            );
-          }, 0);
-          
-        // Update player coins
-        updateResources({ coins: gameState.coins + passiveIncome });
-      }
-    }, 1000);
-    
-    return () => clearInterval(intervalId);
-  }, [gameState, updateResources]);
-  
-  return (
-    <div className="resource-manager">
-      <div className="resource-grid">
-        {Object.entries(gameState.resources || {}).map(([resource, amount]) => (
-          <ResourceCard 
-            key={resource}
-            name={resource}
-            amount={amount}
-            icon={`/assets/resources/${resource.toLowerCase()}.png`}
-          />
-        ))}
-      </div>
-      
-      <div className="industry-contracts">
-        <h3>Industry Contracts</h3>
-        {Object.entries(gameState.industries || {}).map(([id, industry]) => (
-          <IndustryContract
-            key={id}
-            industry={industry}
-            selected={selectedIndustry === id}
-            onSelect={() => setSelectedIndustry(id)}
-            onUpgrade={() => upgradeIndustry(id)}
-          />
-        ))}
-      </div>
-    </div>
-  );
-};
+                        return (
+                          <div className="resource-manager">
+                            <div className="resource-grid">
+                              <div class="phone-screen">
+                                  <img src="https://db94virrvubjy.cloudfront.net/latest/images/screenshots/home.webp" alt="Capybara Kombat Game Screenshot">
+                              </div>
+                            </div>
+                            <div className="industry-contracts">
+                              <h3>Industry Contracts</h3>
+                              {Object.entries(gameState.industries || {}).map(([id, industry]) => (
+                                <IndustryContract
+                                  key={id}
+                                  industry={industry}
+                                  selected={selectedIndustry === id}
+                                  onSelect={() => setSelectedIndustry(id)}
+                                  onUpgrade={() => upgradeIndustry(id)}
+                                />
+                              ))}
+                            </div>
+                          </div>
+                        );
+                      };
                     </code></pre>
-                </div>
+              </div>
                 <div class="ui-showcase">
                     <div class="ui-components">
                         <div class="ui-card">
                             <h4>Resource Card</h4>
-                            <div class="component-preview">
-                                <img src="component-resource.png" alt="Resource Component Preview">
+                            <div class="phone-mockup">
+                                <div class="phone-frame">
+                                    <div class="phone-screen">
+                                        <img src="https://db94virrvubjy.cloudfront.net/latest/images/screenshots/tech.webp" alt="Capybara Kombat Game Screenshot">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="ui-card">
                             <h4>Industry Contract</h4>
-                            <div class="component-preview">
-                                <img src="component-industry.png" alt="Industry Contract Component Preview">
+                            <div class="phone-mockup">
+                                <div class="phone-frame">
+                                    <div class="phone-screen">
+                                        <img src="https://db94virrvubjy.cloudfront.net/latest/images/screenshots/completedProjects.webp" alt="Capybara Kombat Game Screenshot">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -361,6 +363,21 @@ export const ResourceManager: React.FC = () => {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-yaml.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-typescript.min.js"></script>
-    <script src="js/main.js" type="module"></script>
+    <script src="./main.js" type="module"></script>
+    <script src="./modules/architectureDiagram.js"></script>
+    <script>
+      // Wait for DOM content to be fully loaded
+      document.addEventListener('DOMContentLoaded', () => {
+        // Initial render
+        if (window.GameArchitectureDiagram) {
+          const diagram = new window.GameArchitectureDiagram({
+            containerId: 'game-architecture-container'
+          });
+          diagram.render();
+        } else {
+          console.error("GameArchitectureDiagram class not found");
+        }
+      });
+    </script>
 </body>
 </html>
