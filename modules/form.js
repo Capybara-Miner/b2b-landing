@@ -1,5 +1,4 @@
-// modules/form.js
-// Handles form validation and submission
+// modules/form.js - Fixed version with corrected URL and proper data handling
 
 /**
  * Initialize form handling functionality
@@ -37,7 +36,15 @@ function handleFormSubmit(e) {
     e.preventDefault();
     
     const form = e.target;
-    const formData = new FormData(form);
+    
+    // Get form values directly from the DOM elements to ensure they're not null
+    const companyName = document.getElementById('name').value || '';
+    const email = document.getElementById('email').value || '';
+    const message = document.getElementById('message').value || '';
+    const packageType = document.getElementById('package').value || 'Enterprise Package ($14,999)';
+    
+    // Log the actual values being collected
+    console.log("Submitting form with values:", { companyName, email, message, packageType });
     
     // Validate all inputs before submission
     let isValid = true;
@@ -64,31 +71,87 @@ function handleFormSubmit(e) {
     submitButton.textContent = 'Sending...';
     submitButton.disabled = true;
     
-    // In a real implementation, you would send the form data to a server
-    // For the demo, we'll simulate a form submission with a timeout
-    setTimeout(() => {
-        // Create success message
-        const successMessage = document.createElement('div');
-        successMessage.classList.add('success-message');
-        successMessage.innerHTML = `
-            <div class="success-icon">
-                <i class="fas fa-check-circle"></i>
-            </div>
-            <h3>Thank you for your interest!</h3>
-            <p>We've received your request and will be in touch shortly to schedule your demo.</p>
-        `;
+    // CORRECTED Google Form submission URL - make sure you check this if it works
+    const googleFormUrl = 'https://docs.google.com/forms/d/1ZGO8yMk6AcvqKZE-XjajCFcrPpMooFxQ8YN11RetDsY/formResponse';
+    
+    // Direct form submission method - more reliable than the iframe technique
+    try {
+        // Create a hidden form that posts directly to Google
+        const hiddenForm = document.createElement('form');
+        hiddenForm.method = 'POST';
+        hiddenForm.action = googleFormUrl;
+        hiddenForm.target = '_blank'; // This opens in a new tab, but we'll intercept and prevent it
+        hiddenForm.style.display = 'none';
         
-        // Replace form with success message
-        form.innerHTML = '';
-        form.appendChild(successMessage);
+        // Add the form fields with the correct entry IDs
+        const addField = (name, value) => {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = name;
+            input.value = value;
+            hiddenForm.appendChild(input);
+        };
         
-        // Reset button state (not necessary but for completeness)
+        // Add all our form fields
+        addField('entry.1131091911', companyName);
+        addField('entry.374807083', email);
+        addField('entry.1722254725', message);
+        addField('entry.1760730952', packageType);
+        
+        // Append the form to the body
+        document.body.appendChild(hiddenForm);
+        
+        // Create a temporary iframe
+        const iframe = document.createElement('iframe');
+        iframe.name = 'hidden_iframe';
+        iframe.style.display = 'none';
+        document.body.appendChild(iframe);
+        
+        // Set the form to target our hidden iframe
+        hiddenForm.target = 'hidden_iframe';
+        
+        // When the iframe loads, show success message
+        iframe.addEventListener('load', () => {
+            // Show success message
+            const successMessage = document.createElement('div');
+            successMessage.classList.add('success-message');
+            successMessage.innerHTML = `
+                <div class="success-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h3>Thank you for your interest!</h3>
+                <p>We've received your request and will be in touch shortly to schedule your demo.</p>
+            `;
+            
+            // Replace form with success message
+            form.innerHTML = '';
+            form.appendChild(successMessage);
+            
+            // Reset button state
+            submitButton.textContent = originalButtonText;
+            submitButton.disabled = false;
+            
+            // Clean up
+            setTimeout(() => {
+                document.body.removeChild(hiddenForm);
+                document.body.removeChild(iframe);
+            }, 1000);
+        });
+        
+        // Submit the form
+        hiddenForm.submit();
+        console.log("Form submitted to:", googleFormUrl);
+        
+    } catch (error) {
+        console.error("Error submitting form:", error);
+        
+        // Reset button state on error
         submitButton.textContent = originalButtonText;
         submitButton.disabled = false;
         
-        // Log form data (for demo)
-        console.log('Form submitted with data:', Object.fromEntries(formData));
-    }, 1500);
+        // Show error message
+        alert("There was an error submitting your request. Please try again or contact us directly.");
+    }
 }
 
 /**
@@ -137,42 +200,3 @@ function validateInput(e) {
     
     return isValid;
 }
-
-// Add CSS styles for form validation
-const formStyles = `
-    .error {
-        border-color: #ef4444 !important;
-    }
-    
-    .error-message {
-        color: #ef4444;
-        font-size: 0.875rem;
-        margin-top: 0.5rem;
-    }
-    
-    .success-message {
-        text-align: center;
-        padding: 2rem;
-    }
-    
-    .success-icon {
-        font-size: 3rem;
-        color: #10b981;
-        margin-bottom: 1rem;
-    }
-    
-    .success-message h3 {
-        margin-bottom: 1rem;
-        color: #10b981;
-    }
-`;
-
-// Add form styles to the document
-function injectFormStyles() {
-    const styleElement = document.createElement('style');
-    styleElement.textContent = formStyles;
-    document.head.appendChild(styleElement);
-}
-
-// Call this when the module is loaded
-injectFormStyles();

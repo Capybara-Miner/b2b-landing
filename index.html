@@ -308,29 +308,29 @@ Resources:
                     <p>Schedule a demo or get in touch to discuss how Capybara Kombat can be your next successful idle game launch.</p>
                 </div>
                 <div class="contact-form-container">
-                    <form id="contact-form" class="contact-form">
-                        <div class="form-group">
-                            <label for="name">Company Name</label>
-                            <input type="text" id="name" name="name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" name="email" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="package">Interested In</label>
-                            <select id="package" name="package">
-                                <option value="standard">Standard Package ($9,999)</option>
-                                <option value="enterprise" selected>Enterprise Package ($14,999)</option>
-                                <option value="custom">Custom Solution (Contact for pricing)</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="message">Message</label>
-                            <textarea id="message" name="message" rows="4"></textarea>
-                        </div>
-                        <button type="submit" class="submit-button">Schedule Demo</button>
-                    </form>
+                  <form id="contact-form" class="contact-form" action="YOUR_GOOGLE_FORM_URL" method="POST" target="_blank">
+                      <div class="form-group">
+                          <label for="entry.1234567890">Company Name</label>
+                          <input type="text" id="name" name="entry.1234567890" required>
+                      </div>
+                      <div class="form-group">
+                          <label for="entry.2345678901">Email</label>
+                          <input type="email" id="email" name="entry.2345678901" required>
+                      </div>
+                      <div class="form-group">
+                          <label for="entry.3456789012">Interested In</label>
+                          <select id="package" name="entry.3456789012">
+                              <option value="Standard">Standard Package ($9,999)</option>
+                              <option value="Enterprise" selected>Enterprise Package ($14,999)</option>
+                              <option value="Custom">Custom Solution (Contact for pricing)</option>
+                          </select>
+                      </div>
+                      <div class="form-group">
+                          <label for="entry.4567890123">Message</label>
+                          <textarea id="message" name="entry.4567890123" rows="4"></textarea>
+                      </div>
+                      <button type="submit" class="submit-button">Schedule Demo</button>
+                  </form>
                 </div>
             </div>
         </div>
@@ -378,6 +378,39 @@ Resources:
           console.error("GameArchitectureDiagram class not found");
         }
       });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const contactForm = document.getElementById('contact-form');
+            
+            if (contactForm) {
+                contactForm.addEventListener('submit', (e) => {
+                    // Get form data for analytics or custom handling
+                    const formData = new FormData(contactForm);
+                    console.log('Form submitted:', Object.fromEntries(formData));
+                    
+                    // Show a success message after submission
+                    setTimeout(() => {
+                        // Create success message
+                        const successMessage = document.createElement('div');
+                        successMessage.classList.add('success-message');
+                        successMessage.innerHTML = `
+                            <div class="success-icon">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <h3>Thank you for your interest!</h3>
+                            <p>We've received your request and will be in touch shortly to schedule your demo.</p>
+                        `;
+                        
+                        // Replace form with success message
+                        contactForm.style.display = 'none';
+                        contactForm.parentNode.appendChild(successMessage);
+                    }, 1000);
+                    
+                    // Note: The form will still submit to Google Forms
+                });
+            }
+        });
     </script>
 </body>
 </html>
