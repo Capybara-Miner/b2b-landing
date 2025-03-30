@@ -21,7 +21,7 @@ Our dual-layer economy creates deeper engagement than standard idle games:
 - Strategic industry contract upgrades
 - Comprehensive monetization pathways
 
-[Try the Live Demo →](https://t.me/CapybaraMiners_bot/app)
+<a href="https://t.me/CapybaraMinersBot/app" target="_blank">Try the Live Demo →</a>
 
 ## Pricing Options
 
@@ -36,3 +36,4 @@ Includes everything in Standard plus full white-labeling and developer integrati
 Contact us today to schedule a demo and discuss how Capybara Kombat can be your next successful idle game launch.
 
 © 2025 Capybara Kombat. All rights reserved.
+
